@@ -12,5 +12,6 @@ namespace EasyFeedbackAPI.data
         public DbSet<Waiter> Waiters { get; set; }
         public DbSet<Chef> Chefs { get; set; }
 
+
     }
 }

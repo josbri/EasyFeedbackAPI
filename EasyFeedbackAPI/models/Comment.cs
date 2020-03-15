@@ -7,7 +7,7 @@ namespace EasyFeedbackAPI.models
     {
         public int ID { get; set; }
 
-        public DateTime Fecha { get; set; } = new DateTime();
+        public DateTime Date { get; set; } = new DateTime();
 
         public int RatingFood { get; set; }
 
