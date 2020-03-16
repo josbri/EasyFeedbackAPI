@@ -5,6 +5,7 @@ namespace EasyFeedbackAPI.models
 {
     public class Comment
     {
+#nullable enable
         public int ID { get; set; }
 
         public DateTime Date { get; set; } = new DateTime();
@@ -19,7 +20,7 @@ namespace EasyFeedbackAPI.models
 
         public Table? Table { get; set; }
 
-
+#nullable disable
         public Comment()
         {
         }
