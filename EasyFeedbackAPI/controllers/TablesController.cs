@@ -16,6 +16,10 @@ namespace EasyFeedbackAPI.controllers
     {
         private readonly EasyFeedbackContext _context;
 
+        public Table ToTable(TableDTO t)
+        {
+            return new Table { NumMesa = t.NumMesa, ComensalesNum = t.ComensalesNum };
+        }
         public TablesController(EasyFeedbackContext context)
         {
             _context = context;
@@ -78,8 +82,9 @@ namespace EasyFeedbackAPI.controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Table>> PostTable(Table table)
+        public async Task<ActionResult<Table>> PostTable(TableDTO tableDTO)
         {
+            var table = ToTable(tableDTO);
             _context.Tables.Add(table);
             await _context.SaveChangesAsync();
 

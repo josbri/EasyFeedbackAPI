@@ -32,6 +32,12 @@ namespace EasyFeedbackAPI
             //Añadimos el EasyFeedbackContext y lo apuntamos a la connectionString.
             services.AddDbContext<EasyFeedbackContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("RDSPRE")));
+
+            //Anyadimos Swagger para controlar la pagina Help de la API.
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc(name: "v0", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "EasyFeedback", Version = "v0" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +47,18 @@ namespace EasyFeedbackAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //Permitimos servir Swagger as a JSON endpoint.
+            app.UseSwagger(c =>
+            {
+                c.RouteTemplate = "help/swagger/{documentname}/swagger.json";
+            });
+            //Permitimos servir Swagger-ui(HTML, etc.)
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint(url: "/help/swagger/v0/swagger.json", name: "EasyFeedBack V0");
+                c.RoutePrefix = "help/swagger";
+            });
 
             app.UseHttpsRedirection();
 

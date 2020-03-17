@@ -16,6 +16,10 @@ namespace EasyFeedbackAPI.controllers
     {
         private readonly EasyFeedbackContext _context;
 
+        private Restaurant ToRestaurant(RestaurantDTO d)
+        {
+            return new Restaurant { Name = d.Name, Location = d.Location };
+        }
         public RestaurantsController(EasyFeedbackContext context)
         {
             _context = context;
@@ -78,8 +82,9 @@ namespace EasyFeedbackAPI.controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Restaurant>> PostRestaurant(Restaurant restaurant)
+        public async Task<ActionResult<Restaurant>> PostRestaurant(RestaurantDTO restaurantDTO)
         {
+            var restaurant = ToRestaurant(restaurantDTO);
             _context.Restaurants.Add(restaurant);
             await _context.SaveChangesAsync();
 

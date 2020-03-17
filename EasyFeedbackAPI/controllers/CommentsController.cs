@@ -16,6 +16,10 @@ namespace EasyFeedbackAPI.controllers
     {
         private readonly EasyFeedbackContext _context;
 
+        public Comment ToComment(CommentDTO c)
+        {
+            return new Comment { RatingFood = c.RatingFood, RatingService = c.RatingService, Table = c.Table, Text = c.Text, Waiter = c.Waiter };
+        }
         public CommentsController(EasyFeedbackContext context)
         {
             _context = context;
@@ -78,8 +82,9 @@ namespace EasyFeedbackAPI.controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Comment>> PostComment(Comment comment)
+        public async Task<ActionResult<Comment>> PostComment(CommentDTO commentDTO)
         {
+            var comment = ToComment(commentDTO);
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
