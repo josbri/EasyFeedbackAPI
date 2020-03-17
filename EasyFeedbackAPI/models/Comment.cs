@@ -1,11 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyFeedbackAPI.models
 {
     public class Comment
     {
 #nullable enable
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         public DateTime Date { get; set; } = new DateTime();
