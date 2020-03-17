@@ -52,13 +52,13 @@ namespace EasyFeedbackAPI
             //Permitimos servir Swagger as a JSON endpoint.
             app.UseSwagger(c =>
             {
-                c.RouteTemplate = "help/swagger/{documentname}/swagger.json";
+                c.RouteTemplate = "swagger/{documentname}/swagger.json";
             });
             //Permitimos servir Swagger-ui(HTML, etc.)
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint(url: "/help/swagger/v0/swagger.json", name: "EasyFeedBack V0");
-                c.RoutePrefix = "help/swagger";
+                c.SwaggerEndpoint(url: "/swagger/v0/swagger.json", name: "EasyFeedBack V0");
+                c.RoutePrefix = "swagger";
             });
 
             app.UseHttpsRedirection();
