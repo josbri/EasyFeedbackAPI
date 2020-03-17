@@ -28,4 +28,5 @@
     <Compile Remove="WeatherForecast.cs" />
     <Compile Remove="data\EmptyClass.cs" />
   </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="http://json.schemastore.org/lerna" /></VisualStudio></ProjectExtensions>
 </Project>

@@ -16,7 +16,7 @@ namespace EasyFeedbackAPI.controllers
     {
         private readonly EasyFeedbackContext _context;
 
-        public Comment ToComment(CommentDTO c)
+        private Comment ToComment(CommentDTO c)
         {
             return new Comment { RatingFood = c.RatingFood, RatingService = c.RatingService, Table = c.Table, Text = c.Text, Waiter = c.Waiter };
         }

@@ -20,7 +20,7 @@
     "EasyFeedbackAPI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "easyfeedback",
+      "launchUrl": "help/swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

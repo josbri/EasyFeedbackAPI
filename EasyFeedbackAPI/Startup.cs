@@ -37,6 +37,7 @@ namespace EasyFeedbackAPI
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(name: "v0", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "EasyFeedback", Version = "v0" });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
         }
 

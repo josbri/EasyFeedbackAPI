@@ -16,7 +16,7 @@ namespace EasyFeedbackAPI.controllers
     {
         private readonly EasyFeedbackContext _context;
 
-        public Table ToTable(TableDTO t)
+        private Table ToTable(TableDTO t)
         {
             return new Table { NumMesa = t.NumMesa, ComensalesNum = t.ComensalesNum };
         }

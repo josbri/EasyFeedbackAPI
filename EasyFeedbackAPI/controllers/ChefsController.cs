@@ -16,7 +16,7 @@ namespace EasyFeedbackAPI.controllers
     {
         private readonly EasyFeedbackContext _context;
 
-        public Chef ToChef(ChefDTO c)
+        private Chef ToChef(ChefDTO c)
         {
             return new Chef { Name = c.Name, Surname = c.Surname };
         }
