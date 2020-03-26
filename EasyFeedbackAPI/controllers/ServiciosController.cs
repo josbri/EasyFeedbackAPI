@@ -12,52 +12,57 @@ namespace EasyFeedbackAPI.controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TablesController : ControllerBase
+    public class ServiciosController : ControllerBase
     {
         private readonly EasyFeedbackContext _context;
 
-        private Table ToTable(TableDTO t)
+        private Servicio ToServicio(ServicioDTO s)
         {
-            return new Table { NumMesa = t.NumMesa, ComensalesNum = t.ComensalesNum };
+            return new Servicio
+            {
+                MesaID = s.MesaID,
+                Comensales = s.Comensales,
+                RestauranteID = s.RestauranteID
+            };
         }
-        public TablesController(EasyFeedbackContext context)
+        public ServiciosController(EasyFeedbackContext context)
         {
             _context = context;
         }
 
-        // GET: api/Tables
+        // GET: api/Servicios
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Table>>> GetTables()
+        public async Task<ActionResult<IEnumerable<Servicio>>> GetServicios()
         {
-            return await _context.Tables.ToListAsync();
+            return await _context.Servicios.ToListAsync();
         }
 
-        // GET: api/Tables/5
+        // GET: api/Servicios/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Table>> GetTable(int id)
+        public async Task<ActionResult<Servicio>> GetServicio(int id)
         {
-            var table = await _context.Tables.FindAsync(id);
+            var servicio = await _context.Servicios.FindAsync(id);
 
-            if (table == null)
+            if (servicio == null)
             {
                 return NotFound();
             }
 
-            return table;
+            return servicio;
         }
 
-        // PUT: api/Tables/5
+        // PUT: api/Servicios/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTable(int id, Table table)
+        public async Task<IActionResult> PutServicio(int id, Servicio servicio)
         {
-            if (id != table.ID)
+            if (id != servicio.ID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(table).State = EntityState.Modified;
+            _context.Entry(servicio).State = EntityState.Modified;
 
             try
             {
@@ -65,7 +70,7 @@ namespace EasyFeedbackAPI.controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TableExists(id))
+                if (!ServicioExists(id))
                 {
                     return NotFound();
                 }
@@ -78,38 +83,38 @@ namespace EasyFeedbackAPI.controllers
             return NoContent();
         }
 
-        // POST: api/Tables
+        // POST: api/Servicios
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Table>> PostTable(TableDTO tableDTO)
+        public async Task<ActionResult<Servicio>> PostServicio(ServicioDTO servicioDTO)
         {
-            var table = ToTable(tableDTO);
-            _context.Tables.Add(table);
+            var servicio = ToServicio(servicioDTO);
+            _context.Servicios.Add(servicio);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTable", new { id = table.ID }, table);
+            return CreatedAtAction("GetServicio", new { id = servicio.ID }, servicioDTO);
         }
 
-        // DELETE: api/Tables/5
+        // DELETE: api/Servicios/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Table>> DeleteTable(int id)
+        public async Task<ActionResult<Servicio>> DeleteServicio(int id)
         {
-            var table = await _context.Tables.FindAsync(id);
-            if (table == null)
+            var servicio = await _context.Servicios.FindAsync(id);
+            if (servicio == null)
             {
                 return NotFound();
             }
 
-            _context.Tables.Remove(table);
+            _context.Servicios.Remove(servicio);
             await _context.SaveChangesAsync();
 
-            return table;
+            return servicio;
         }
 
-        private bool TableExists(int id)
+        private bool ServicioExists(int id)
         {
-            return _context.Tables.Any(e => e.ID == id);
+            return _context.Servicios.Any(e => e.ID == id);
         }
     }
 }

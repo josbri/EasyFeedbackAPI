@@ -14,19 +14,19 @@ namespace EasyFeedbackAPI.models
 
         public string Text { get; set; }
 
-        public Waiter? Waiter { get; set; }
+        public string Autor { get; set; }
+        public int ServicioID { get; set; }
 
-        public Table? Table { get; set; }
-
-        public CommentDTO(int ratingFood, int ratingService, string text, Waiter? waiter, Table? table)
+        public CommentDTO(int ratingFood, int ratingService, string text, int servicio, string autor)
         {
             RatingFood = ratingFood;
             RatingService = ratingService;
             Text = text;
-            Waiter = waiter;
-            Table = table;
+            ServicioID = servicio;
+            Autor = autor;
         }
 
+        public CommentDTO() { }
 #nullable disable
     }
 }

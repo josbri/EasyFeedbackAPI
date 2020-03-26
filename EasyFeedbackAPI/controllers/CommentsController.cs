@@ -18,7 +18,7 @@ namespace EasyFeedbackAPI.controllers
 
         private Comment ToComment(CommentDTO c)
         {
-            return new Comment { RatingFood = c.RatingFood, RatingService = c.RatingService, Table = c.Table, Text = c.Text, Waiter = c.Waiter };
+            return new Comment { RatingFood = c.RatingFood, RatingService = c.RatingService, Text = c.Text, ServicioID = c.ServicioID,  Autor = c.Autor };
         }
         public CommentsController(EasyFeedbackContext context)
         {
@@ -88,7 +88,7 @@ namespace EasyFeedbackAPI.controllers
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetComment", new { id = comment.ID }, comment);
+            return CreatedAtAction("GetComment", new { id = comment.ID }, commentDTO);
         }
 
         // DELETE: api/Comments/5

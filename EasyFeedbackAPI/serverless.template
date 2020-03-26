@@ -32,13 +32,7 @@
 							"Path": "/{proxy+}",
 							"Method": "ANY"
 						}
-					},
-					"RootResource": {
-						"Type": "Api",
-						"Properties": {
-							"Path": "/",
-							"Method": "ANY"
-						}
+					
 					}
 				}
 			}

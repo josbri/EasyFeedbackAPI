@@ -8,10 +8,9 @@ namespace EasyFeedbackAPI.data
     {
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Table> Tables { get; set; }
         public DbSet<Waiter> Waiters { get; set; }
-        public DbSet<Chef> Chefs { get; set; }
 
+        public DbSet<Servicio> Servicios { get; set; }
         public EasyFeedbackContext(DbContextOptions<EasyFeedbackContext> options) : base(options)
         {
             

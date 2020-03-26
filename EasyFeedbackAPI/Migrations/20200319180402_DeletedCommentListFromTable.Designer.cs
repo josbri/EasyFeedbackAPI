@@ -4,14 +4,16 @@ using EasyFeedbackAPI.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EasyFeedbackAPI.Migrations
 {
     [DbContext(typeof(EasyFeedbackContext))]
-    partial class EasyFeedbackContextModelSnapshot : ModelSnapshot
+    [Migration("20200319180402_DeletedCommentListFromTable")]
+    partial class DeletedCommentListFromTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,10 +27,6 @@ namespace EasyFeedbackAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Autor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -53,6 +51,24 @@ namespace EasyFeedbackAPI.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("EasyFeedbackAPI.models.Mesas", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ComensalesNum")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NumMesa")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Tables");
+                });
+
             modelBuilder.Entity("EasyFeedbackAPI.models.Restaurant", b =>
                 {
                     b.Property<int>("ID")
@@ -69,9 +85,6 @@ namespace EasyFeedbackAPI.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Tables")
-                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -100,20 +113,9 @@ namespace EasyFeedbackAPI.Migrations
                     b.Property<int>("MesaID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RestaurantID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RestauranteID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WaiterID")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
-                    b.HasIndex("RestaurantID");
-
-                    b.HasIndex("WaiterID");
+                    b.HasIndex("MesaID");
 
                     b.ToTable("Servicios");
                 });
@@ -129,16 +131,10 @@ namespace EasyFeedbackAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RestauranteID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("RestauranteID");
 
                     b.ToTable("Waiters");
                 });
@@ -154,22 +150,9 @@ namespace EasyFeedbackAPI.Migrations
 
             modelBuilder.Entity("EasyFeedbackAPI.models.Servicio", b =>
                 {
-                    b.HasOne("EasyFeedbackAPI.models.Restaurant", "Restaurant")
+                    b.HasOne("EasyFeedbackAPI.models.Mesas", "Mesa")
                         .WithMany()
-                        .HasForeignKey("RestaurantID");
-
-                    b.HasOne("EasyFeedbackAPI.models.Waiter", "Waiter")
-                        .WithMany()
-                        .HasForeignKey("WaiterID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EasyFeedbackAPI.models.Waiter", b =>
-                {
-                    b.HasOne("EasyFeedbackAPI.models.Restaurant", "Restaurante")
-                        .WithMany("Waiters")
-                        .HasForeignKey("RestauranteID")
+                        .HasForeignKey("MesaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

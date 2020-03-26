@@ -4,14 +4,16 @@ using EasyFeedbackAPI.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EasyFeedbackAPI.Migrations
 {
     [DbContext(typeof(EasyFeedbackContext))]
-    partial class EasyFeedbackContextModelSnapshot : ModelSnapshot
+    [Migration("20200326161731_MesasRemoved")]
+    partial class MesasRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,10 +27,6 @@ namespace EasyFeedbackAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Autor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -106,14 +104,9 @@ namespace EasyFeedbackAPI.Migrations
                     b.Property<int>("RestauranteID")
                         .HasColumnType("int");
 
-                    b.Property<int>("WaiterID")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
                     b.HasIndex("RestaurantID");
-
-                    b.HasIndex("WaiterID");
 
                     b.ToTable("Servicios");
                 });
@@ -157,12 +150,6 @@ namespace EasyFeedbackAPI.Migrations
                     b.HasOne("EasyFeedbackAPI.models.Restaurant", "Restaurant")
                         .WithMany()
                         .HasForeignKey("RestaurantID");
-
-                    b.HasOne("EasyFeedbackAPI.models.Waiter", "Waiter")
-                        .WithMany()
-                        .HasForeignKey("WaiterID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("EasyFeedbackAPI.models.Waiter", b =>

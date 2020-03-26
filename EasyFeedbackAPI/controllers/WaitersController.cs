@@ -85,10 +85,11 @@ namespace EasyFeedbackAPI.controllers
         public async Task<ActionResult<Waiter>> PostWaiter(WaiterDTO waiterDTO)
         {
             var waiter = ToWaiter(waiterDTO);
+
             _context.Waiters.Add(waiter);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWaiter", new { id = waiter.ID }, waiter);
+            return CreatedAtAction("GetWaiter", new { id = waiter.ID }, waiterDTO);
         }
 
         // DELETE: api/Waiters/5

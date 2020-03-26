@@ -27,6 +27,7 @@ namespace EasyFeedbackAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers();
 
             //Añadimos el EasyFeedbackContext y lo apuntamos a la connectionString.
@@ -49,6 +50,9 @@ namespace EasyFeedbackAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(
+                options => options.WithOrigins("*").AllowAnyHeader().AllowAnyMethod()
+                );
             //Permitimos servir Swagger as a JSON endpoint.
             app.UseSwagger(c =>
             {

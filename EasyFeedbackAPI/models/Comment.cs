@@ -11,7 +11,7 @@ namespace EasyFeedbackAPI.models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
-        public DateTime Date { get; set; } = new DateTime();
+        public DateTime Date { get; set; } = DateTime.Now;
 
         public int RatingFood { get; set; }
 
@@ -19,9 +19,24 @@ namespace EasyFeedbackAPI.models
 
         public string Text { get; set; }
 
-        public Waiter? Waiter { get; set; }
+        public string Autor { get; set; }
+        public int ServicioID { get; set; }
+        public Servicio Servicio { get; set; }
 
-        public Table? Table { get; set; }
+        public Comment(int iD, DateTime date, int ratingFood, int ratingService, string text, string autor, int servicioID)
+        {
+            ID = iD;
+            Date = DateTime.Now;
+            RatingFood = ratingFood;
+            RatingService = ratingService;
+            Text = text;
+            ServicioID = servicioID;
+            Autor = autor;
+        }
+
+
+
+
 
 #nullable disable
         public Comment()

@@ -11,14 +11,20 @@ namespace EasyFeedbackAPI.models
 #nullable enable
 
         public string Name { get; set; }
-        public string? Location { get; set; }
+        public string Location { get; set; }
 
-        public RestaurantDTO(string name, string? location)
+        public string Logo { get; set; }
+
+        public int Tables { get; set; }
+        public RestaurantDTO(string name, string location, string logo, int numMesas)
         {
             Name = name;
             Location = location;
+            Logo = logo;
+            Tables = numMesas;
         }
 
+        public RestaurantDTO() { }
 #nullable disable
     }
 }

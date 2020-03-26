@@ -10,15 +10,17 @@ namespace EasyFeedbackAPI.models
 #nullable enable
 
         public string Name { get; set; }
-        public string? Surname { get; set; }
+        public string Surname { get; set; } = "";
+        public int RestauranteID { get; set; }
 
-        public WaiterDTO(string name, string? surname)
+        public WaiterDTO(string name, string surname, int restaurante)
         {
             Name = name;
             Surname = surname;
+            RestauranteID = restaurante;
         }
 
-
+        public WaiterDTO() { }
 #nullable disable
     }
 }

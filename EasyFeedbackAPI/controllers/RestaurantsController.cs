@@ -18,7 +18,7 @@ namespace EasyFeedbackAPI.controllers
 
         private Restaurant ToRestaurant(RestaurantDTO d)
         {
-            return new Restaurant { Name = d.Name, Location = d.Location };
+            return new Restaurant { Name = d.Name, Location = d.Location, Logo = d.Logo, Tables = d.Tables};
         }
         public RestaurantsController(EasyFeedbackContext context)
         {
@@ -88,7 +88,9 @@ namespace EasyFeedbackAPI.controllers
             _context.Restaurants.Add(restaurant);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRestaurant", new { id = restaurant.ID }, restaurant);
+
+
+            return CreatedAtAction("GetRestaurant", new { id = restaurant.ID }, restaurantDTO);
         }
 
         // DELETE: api/Restaurants/5
