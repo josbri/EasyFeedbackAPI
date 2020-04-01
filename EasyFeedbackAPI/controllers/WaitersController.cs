@@ -18,7 +18,7 @@ namespace EasyFeedbackAPI.controllers
 
         private Waiter ToWaiter(WaiterDTO w)
         {
-            return new Waiter { Name = w.Name, Surname = w.Surname };
+            return new Waiter { Name = w.Name, Surname = w.Surname, RestauranteID = w.RestauranteID };
         }
         public WaitersController(EasyFeedbackContext context)
         {

@@ -34,6 +34,7 @@ namespace EasyFeedbackAPI
             services.AddDbContext<EasyFeedbackContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("RDSPRE")));
 
+               
             //Anyadimos Swagger para controlar la pagina Help de la API.
             services.AddSwaggerGen(c =>
             {

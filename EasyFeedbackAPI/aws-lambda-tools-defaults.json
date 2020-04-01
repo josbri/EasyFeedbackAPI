@@ -7,13 +7,13 @@
         "All the command line options for the Lambda command can be specified in this file."
     ],
     "profile"     : "josepB",
-    "region"      : "eu-west-3",
+    "region"      : "eu-west-1",
     "configuration" : "Release",
     "s3-prefix"     : "AWSServerless1/",
     "template"      : "serverless.template",
     "template-parameters" : "",
     "msbuild-parameters"  : "--self-contained true /p:AssemblyName=bootstrap",
     "framework"           : "netcoreapp3.1",
-    "s3-bucket"           : "elasticbeanstalk-eu-west-3-763767353040",
+    "s3-bucket"           : "easyfeedback",
     "stack-name"          : "EasyFeedBackAPI"
 }

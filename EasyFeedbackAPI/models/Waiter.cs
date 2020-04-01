@@ -16,6 +16,7 @@ namespace EasyFeedbackAPI.models
         public Restaurant Restaurante { get; set; }
 
 
+
 #nullable disable
         public Waiter()
         {
