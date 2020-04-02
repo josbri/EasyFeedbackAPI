@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using EasyFeedbackAPI.data;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace EasyFeedbackAPI
 {
@@ -34,7 +40,36 @@ namespace EasyFeedbackAPI
             services.AddDbContext<EasyFeedbackContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("RDSPRE")));
 
-               
+            var Region = Configuration["AWSCognito:Region"];
+            var PoolId = Configuration["AWSCognito:PoolId"];
+            var AppClientId = Configuration["AWSCognito:AppClientId"];
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKeyResolver = (s, securityToken, identifier, parameters) =>
+                        {
+                  // Get JsonWebKeySet from AWS
+                  var json = new WebClient().DownloadString(parameters.ValidIssuer + "/.well-known/jwks.json");
+                  // Serialize the result
+                  return JsonConvert.DeserializeObject<JsonWebKeySet>(json).Keys;
+                        },
+                        ValidateIssuer = true,
+                        ValidIssuer = $"https://cognito-idp.{Region}.amazonaws.com/{PoolId}",
+                        ValidateLifetime = true,
+                        LifetimeValidator = (before, expires, token, param) => expires > DateTime.UtcNow,
+                        ValidateAudience = true,
+                        ValidAudience = AppClientId,
+                    };
+                });
             //Anyadimos Swagger para controlar la pagina Help de la API.
             services.AddSwaggerGen(c =>
             {
@@ -71,6 +106,8 @@ namespace EasyFeedbackAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

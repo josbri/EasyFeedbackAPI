@@ -15,6 +15,8 @@ namespace EasyFeedbackAPI.data
         {
             
         }
+        public DbSet<EasyFeedbackAPI.models.User> User { get; set; }
+        public DbSet<EasyFeedbackAPI.models.Settings> Settings { get; set; }
 
 
         //Creamos un constructor que reciba DbContextOptions para que ASP.NET le inyecte la configuracion
