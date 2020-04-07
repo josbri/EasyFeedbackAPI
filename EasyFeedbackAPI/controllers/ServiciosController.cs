@@ -22,7 +22,8 @@ namespace EasyFeedbackAPI.controllers
             {
                 MesaID = s.MesaID,
                 Comensales = s.Comensales,
-                RestauranteID = s.RestauranteID
+                RestauranteID = s.RestauranteID,
+                UserID = s.UserID
             };
         }
         public ServiciosController(EasyFeedbackContext context)

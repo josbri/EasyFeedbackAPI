@@ -15,7 +15,10 @@ namespace EasyFeedbackAPI.models
         public string? Location { get; set; }
         public string? Logo { get; set; }
         public int Tables { get; set; }
-        public ICollection<Waiter> Waiters { get; set; }
+        
+        public int? SettingsID { get; set; }
+        public Settings? Settings { get; set; }
+        public List<UsersRestaurants>? UsersRestaurants { get; set; }
 
 #nullable disable
         public Restaurant()

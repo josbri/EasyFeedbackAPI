@@ -7,23 +7,17 @@ using System.Threading.Tasks;
 
 namespace EasyFeedbackAPI.models
 {
-    public class Settings
+    public class UsersRestaurants
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-
-#nullable enable
-        public int? LicencesUsed { get; set; } = 0;
-
-        public int? LicensesLeft { get; set; }
-        public int ReturnCode { get; set; } = 0000;
+        public int UserID { get; set; }
+        public User User { get; set; }
 
         public int RestaurantID { get; set; }
-        //public Restaurant Restaurant { get; set; }
+        public Restaurant Restaurant { get; set; }
 
-#nullable disable
-        public Settings() { }
-
+        public UsersRestaurants() { }
     }
 }

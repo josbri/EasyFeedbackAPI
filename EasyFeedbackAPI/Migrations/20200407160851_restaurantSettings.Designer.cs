@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyFeedbackAPI.Migrations
 {
     [DbContext(typeof(EasyFeedbackContext))]
-    [Migration("20200402094249_user-settings")]
-    partial class usersettings
+    [Migration("20200407160851_restaurantSettings")]
+    partial class restaurantSettings
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,10 +72,18 @@ namespace EasyFeedbackAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SettingsID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SettingsID1")
+                        .HasColumnType("int");
+
                     b.Property<int>("Tables")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("SettingsID1");
 
                     b.ToTable("Restaurants");
                 });
@@ -108,14 +116,14 @@ namespace EasyFeedbackAPI.Migrations
                     b.Property<int>("RestauranteID")
                         .HasColumnType("int");
 
-                    b.Property<int>("WaiterID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("RestaurantID");
 
-                    b.HasIndex("WaiterID");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Servicios");
                 });
@@ -127,21 +135,19 @@ namespace EasyFeedbackAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("LicencesUsed")
+                    b.Property<int?>("LicencesUsed")
                         .HasColumnType("int");
 
                     b.Property<int?>("LicensesLeft")
                         .HasColumnType("int");
 
-                    b.Property<int>("PassRetorno")
-                        .HasColumnType("int");
-
                     b.Property<int>("RestaurantID")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.Property<int>("ReturnCode")
+                        .HasColumnType("int");
 
-                    b.HasIndex("RestaurantID");
+                    b.HasKey("ID");
 
                     b.ToTable("Settings");
                 });
@@ -165,17 +171,34 @@ namespace EasyFeedbackAPI.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RestaurantID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("EasyFeedbackAPI.models.UsersRestaurants", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("RestaurantID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
                     b.HasIndex("RestaurantID");
 
-                    b.ToTable("User");
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UsersRestaurants");
                 });
 
             modelBuilder.Entity("EasyFeedbackAPI.models.Waiter", b =>
@@ -212,33 +235,37 @@ namespace EasyFeedbackAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("EasyFeedbackAPI.models.Restaurant", b =>
+                {
+                    b.HasOne("EasyFeedbackAPI.models.Settings", "Settings")
+                        .WithMany()
+                        .HasForeignKey("SettingsID1");
+                });
+
             modelBuilder.Entity("EasyFeedbackAPI.models.Servicio", b =>
                 {
                     b.HasOne("EasyFeedbackAPI.models.Restaurant", "Restaurant")
                         .WithMany()
                         .HasForeignKey("RestaurantID");
 
-                    b.HasOne("EasyFeedbackAPI.models.Waiter", "Waiter")
+                    b.HasOne("EasyFeedbackAPI.models.User", "User")
                         .WithMany()
-                        .HasForeignKey("WaiterID")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EasyFeedbackAPI.models.Settings", b =>
+            modelBuilder.Entity("EasyFeedbackAPI.models.UsersRestaurants", b =>
                 {
                     b.HasOne("EasyFeedbackAPI.models.Restaurant", "Restaurant")
-                        .WithMany()
+                        .WithMany("UsersRestaurants")
                         .HasForeignKey("RestaurantID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("EasyFeedbackAPI.models.User", b =>
-                {
-                    b.HasOne("EasyFeedbackAPI.models.Restaurant", "Restaurant")
-                        .WithMany()
-                        .HasForeignKey("RestaurantID")
+                    b.HasOne("EasyFeedbackAPI.models.User", "User")
+                        .WithMany("UsersRestaurants")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -246,7 +273,7 @@ namespace EasyFeedbackAPI.Migrations
             modelBuilder.Entity("EasyFeedbackAPI.models.Waiter", b =>
                 {
                     b.HasOne("EasyFeedbackAPI.models.Restaurant", "Restaurante")
-                        .WithMany("Waiters")
+                        .WithMany()
                         .HasForeignKey("RestauranteID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

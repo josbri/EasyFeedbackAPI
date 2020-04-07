@@ -11,12 +11,14 @@ namespace EasyFeedbackAPI.data
         public DbSet<Waiter> Waiters { get; set; }
 
         public DbSet<Servicio> Servicios { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Settings> Settings { get; set; }
+        public DbSet<UsersRestaurants> UsersRestaurants { get; set; }
         public EasyFeedbackContext(DbContextOptions<EasyFeedbackContext> options) : base(options)
         {
             
         }
-        public DbSet<EasyFeedbackAPI.models.User> User { get; set; }
-        public DbSet<EasyFeedbackAPI.models.Settings> Settings { get; set; }
+
 
 
         //Creamos un constructor que reciba DbContextOptions para que ASP.NET le inyecte la configuracion

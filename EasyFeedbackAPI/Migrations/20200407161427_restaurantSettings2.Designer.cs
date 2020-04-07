@@ -4,14 +4,16 @@ using EasyFeedbackAPI.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EasyFeedbackAPI.Migrations
 {
     [DbContext(typeof(EasyFeedbackContext))]
-    partial class EasyFeedbackContextModelSnapshot : ModelSnapshot
+    [Migration("20200407161427_restaurantSettings2")]
+    partial class restaurantSettings2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,14 +189,17 @@ namespace EasyFeedbackAPI.Migrations
                     b.Property<int>("RestaurantID")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserID")
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserID1")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("RestaurantID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserID1");
 
                     b.ToTable("UsersRestaurants");
                 });
@@ -263,9 +268,7 @@ namespace EasyFeedbackAPI.Migrations
 
                     b.HasOne("EasyFeedbackAPI.models.User", "User")
                         .WithMany("UsersRestaurants")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserID1");
                 });
 
             modelBuilder.Entity("EasyFeedbackAPI.models.Waiter", b =>

@@ -15,16 +15,13 @@ namespace EasyFeedbackAPI.models
 
         public string CognitoID { get; set; }
         public string Name { get; set; }
-
         public string Surname { get; set; }
 
         public string Email { get; set; }
-
-        public int RestaurantID { get; set; }
-        public Restaurant Restaurant { get; set; }
-
+#nullable enable
+        public List<UsersRestaurants>? UsersRestaurants { get; set; }
+#nullable disable    
         public bool Admin { get; set; }
-
 
         public User() { }
 

@@ -34,7 +34,9 @@ namespace EasyFeedbackAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                ); ;
 
             //Añadimos el EasyFeedbackContext y lo apuntamos a la connectionString.
             services.AddDbContext<EasyFeedbackContext>(options =>

@@ -16,14 +16,14 @@ namespace EasyFeedbackAPI.models
 
         public int RestauranteID { get; set; }
 
-        public int WaiterID { get; set; }
+        public int UserID { get; set; }
 
-        public ServicioDTO(int mesaID, int comensales, int restauranteID, int waiterID)
+        public ServicioDTO(int mesaID, int comensales, int restauranteID, int userID)
         {
             MesaID = mesaID;
             Comensales = comensales;
             RestauranteID = restauranteID;
-            WaiterID = waiterID;
+            UserID = userID;
         }
 
         public ServicioDTO() { }

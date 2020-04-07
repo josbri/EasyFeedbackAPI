@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -35,6 +36,42 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="controllers\WeatherForecastController.cs" />
+    <Compile Remove="Migrations\20200326161731_MesasRemoved.cs" />
+    <Compile Remove="Migrations\20200326161731_MesasRemoved.Designer.cs" />
+    <Compile Remove="Migrations\20200326180959_Post-meeting.cs" />
+    <Compile Remove="Migrations\20200326180959_Post-meeting.Designer.cs" />
+    <Compile Remove="Migrations\20200402094249_user-settings.cs" />
+    <Compile Remove="Migrations\20200402094249_user-settings.Designer.cs" />
+    <Compile Remove="Migrations\20200407114341_Controller-UserCognitoID.cs" />
+    <Compile Remove="Migrations\20200407114341_Controller-UserCognitoID.Designer.cs" />
+    <Compile Remove="Migrations\20200407114913_Controller-UserCognitoID2.cs" />
+    <Compile Remove="Migrations\20200407114913_Controller-UserCognitoID2.Designer.cs" />
+    <Compile Remove="Migrations\20200407115119_Controller-UserCognitoID3.cs" />
+    <Compile Remove="Migrations\20200407115119_Controller-UserCognitoID3.Designer.cs" />
+    <Compile Remove="Migrations\20200407122033_Controller-UserCognitoID5.cs" />
+    <Compile Remove="Migrations\20200407122033_Controller-UserCognitoID5.Designer.cs" />
+    <Compile Remove="Migrations\20200407123532_Controller-UserCognitoID6.cs" />
+    <Compile Remove="Migrations\20200407123532_Controller-UserCognitoID6.Designer.cs" />
+    <Compile Remove="Migrations\20200407124323_Controller-UserCognitoID7.cs" />
+    <Compile Remove="Migrations\20200407124323_Controller-UserCognitoID7.Designer.cs" />
+    <Compile Remove="Migrations\20200407125224_Controller-UserCognitoID8.cs" />
+    <Compile Remove="Migrations\20200407125224_Controller-UserCognitoID8.Designer.cs" />
+    <Compile Remove="Migrations\20200407125714_Controller-UserCognitoID9.cs" />
+    <Compile Remove="Migrations\20200407125714_Controller-UserCognitoID9.Designer.cs" />
+    <Compile Remove="Migrations\20200407130240_Controller-UserCognitoID10.cs" />
+    <Compile Remove="Migrations\20200407130240_Controller-UserCognitoID10.Designer.cs" />
+    <Compile Remove="Migrations\20200407131503_Controller-UserCognitoID11.cs" />
+    <Compile Remove="Migrations\20200407131503_Controller-UserCognitoID11.Designer.cs" />
+    <Compile Remove="Migrations\20200407131812_Controller-UserCognitoID12.cs" />
+    <Compile Remove="Migrations\20200407131812_Controller-UserCognitoID12.Designer.cs" />
+    <Compile Remove="Migrations\20200407131937_Controller-UserCognitoID13.cs" />
+    <Compile Remove="Migrations\20200407131937_Controller-UserCognitoID13.Designer.cs" />
+    <Compile Remove="Migrations\20200407132746_Controller-UserCognitoID14.cs" />
+    <Compile Remove="Migrations\20200407132746_Controller-UserCognitoID14.Designer.cs" />
+    <Compile Remove="Migrations\20200407133315_Proba.cs" />
+    <Compile Remove="Migrations\20200407133315_Proba.Designer.cs" />
+    <Compile Remove="Migrations\20200407143138_Proba.cs" />
+    <Compile Remove="Migrations\20200407143138_Proba.Designer.cs" />
     <Compile Remove="WeatherForecast.cs" />
     <Compile Remove="data\EmptyClass.cs" />
   </ItemGroup>
