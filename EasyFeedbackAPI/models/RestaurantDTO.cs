@@ -15,13 +15,15 @@ namespace EasyFeedbackAPI.models
 
         public string Logo { get; set; }
 
+        public string Abrev { get; set; }
         public int Tables { get; set; }
-        public RestaurantDTO(string name, string location, string logo, int numMesas)
+        public RestaurantDTO(string name, string location, string logo, int numMesas, string abrev)
         {
             Name = name;
             Location = location;
             Logo = logo;
             Tables = numMesas;
+            Abrev = abrev;
         }
 
         public RestaurantDTO() { }

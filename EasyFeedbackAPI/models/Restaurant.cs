@@ -16,6 +16,7 @@ namespace EasyFeedbackAPI.models
         public string? Logo { get; set; }
         public int Tables { get; set; }
         
+        public string Abrev { get; set; }
         public int? SettingsID { get; set; }
         public Settings? Settings { get; set; }
         public List<UsersRestaurants>? UsersRestaurants { get; set; }

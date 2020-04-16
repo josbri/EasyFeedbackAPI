@@ -94,7 +94,7 @@ namespace EasyFeedbackAPI.controllers
             _context.Servicios.Add(servicio);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetServicio", new { id = servicio.ID }, servicioDTO);
+            return CreatedAtAction("GetServicio", new { id = servicio.ID }, servicio.ID);
         }
 
         // DELETE: api/Servicios/5

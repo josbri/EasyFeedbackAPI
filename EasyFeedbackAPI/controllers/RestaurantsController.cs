@@ -18,7 +18,7 @@ namespace EasyFeedbackAPI.controllers
 
         private Restaurant ToRestaurant(RestaurantDTO d)
         {
-            return new Restaurant { Name = d.Name, Location = d.Location, Logo = d.Logo, Tables = d.Tables};
+            return new Restaurant { Name = d.Name, Location = d.Location, Logo = d.Logo, Tables = d.Tables, Abrev = d.Abrev};
         }
         public RestaurantsController(EasyFeedbackContext context)
         {

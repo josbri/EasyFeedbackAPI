@@ -13,16 +13,20 @@ namespace EasyFeedbackAPI.models
         public string Surname { get; set; }
 
         public string Email { get; set; }
+        public string Username { get; set; }
 
+        public int RestaurantID { get; set; }
         public bool Admin { get; set; }
 
-        public UserDTO(string cognitoID, string name, string surname, string email, bool admin)
+        public UserDTO(string cognitoID, string name, string surname, string email, string username, bool admin, int restaurantID)
         {
             CognitoID = cognitoID;
             Name = name;
             Surname = surname;
             Email = email;
             Admin = admin;
+            Username = username;
+            RestaurantID = restaurantID;
         }
 
         public UserDTO() { }

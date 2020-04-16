@@ -18,7 +18,8 @@ namespace EasyFeedbackAPI.controllers
 
         private User ToUser(UserDTO u)
         {
-            return new User { Name = u.Name, Surname = u.Surname, CognitoID = u.CognitoID, Admin = u.Admin, Email = u.Email};
+            return new User { Name = u.Name, Surname = u.Surname, 
+                CognitoID = u.CognitoID, Admin = u.Admin, Email = u.Email, Username = u.Username};
         }
         public UsersController(EasyFeedbackContext context)
         {
@@ -39,6 +40,7 @@ namespace EasyFeedbackAPI.controllers
             var user = await _context.Users
                 .Include(i => i.UsersRestaurants)
                     .ThenInclude(i => i.Restaurant)
+                    .ThenInclude(i => i.Settings)
                 .FirstOrDefaultAsync(i => i.CognitoID == CognitoID);
             if (user == null)
             {
@@ -101,6 +103,18 @@ namespace EasyFeedbackAPI.controllers
         {
             var user = ToUser(userDTO);
             _context.Users.Add(user);
+
+            await _context.SaveChangesAsync();
+
+            var userRestaurant = new UsersRestaurants()
+            {
+                RestaurantID = userDTO.RestaurantID,
+                UserID = user.ID
+            };
+
+
+            _context.UsersRestaurants.Add(userRestaurant);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.ID }, user);
