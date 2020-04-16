@@ -33,15 +33,57 @@ namespace EasyFeedbackAPI.controllers
             return await _context.Users.ToListAsync();
         }
 
+
         // GET: api/Users
         [HttpGet("cognito/{cognito}")]
-        public async Task<ActionResult<User>> GetByCognitoID(string CognitoID)
+        public async Task<ActionResult<UserGetDTO>> GetByCognitoID(string CognitoID)
         {
+            //var userNoDTO = await _context.Users
+            //    .Include(i => i.UsersRestaurants)
+            //        .ThenInclude(i => i.Restaurant)
+            //        .ThenInclude(i => i.Settings)
+            //    .FirstOrDefaultAsync(i => i.CognitoID == CognitoID);
+
             var user = await _context.Users
-                .Include(i => i.UsersRestaurants)
-                    .ThenInclude(i => i.Restaurant)
-                    .ThenInclude(i => i.Settings)
-                .FirstOrDefaultAsync(i => i.CognitoID == CognitoID);
+            .Include(i => i.UsersRestaurants)
+            .ThenInclude(i => i.Restaurant)
+            .Where(i => i.CognitoID == CognitoID)
+            .Select(i => new UserGetDTO
+            {
+                ID = i.ID,
+                Username = i.Username,
+                CognitoID = i.CognitoID,
+                Email = i.Email,
+                Name = i.Name,
+                Surname = i.Surname,
+                Restaurants = i.UsersRestaurants.Select( ur => 
+                new RestaurantGetDTO
+                {
+                    ID = ur.Restaurant.ID,
+                    Abrev = ur.Restaurant.Abrev,
+                    Name = ur.Restaurant.Name,
+                    Location = ur.Restaurant.Location,
+                    Logo = ur.Restaurant.Logo,
+                    Tables = ur.Restaurant.Tables,
+                    LicencesUsed = ur.Restaurant.LicencesUsed,
+                    LicensesLeft = ur.Restaurant.LicensesLeft,
+                    ReturnCode = ur.Restaurant.ReturnCode,
+                    Users = ur.Restaurant.UsersRestaurants.Select (ur => 
+                       new UserDTO
+                       {
+                           Admin = ur.User.Admin,
+                           CognitoID = ur.User.CognitoID,
+                           Email = ur.User.Email,
+                           Name = ur.User.Name,
+                           Username = ur.User.Username,
+                           Surname = ur.User.Surname,
+                       }).ToList()
+                }
+                    ).ToList()
+
+            }).FirstOrDefaultAsync();
+
+
             if (user == null)
             {
                 return NotFound();

@@ -17,8 +17,12 @@ namespace EasyFeedbackAPI.models
         public int Tables { get; set; }
         
         public string Abrev { get; set; }
-        public int? SettingsID { get; set; }
-        public Settings? Settings { get; set; }
+
+        public int? LicencesUsed { get; set; } = 0;
+
+        public int? LicensesLeft { get; set; }
+        public int ReturnCode { get; set; } = 0000;
+
         public List<UsersRestaurants>? UsersRestaurants { get; set; }
 
 #nullable disable
