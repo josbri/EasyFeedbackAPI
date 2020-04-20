@@ -17,10 +17,10 @@ namespace EasyFeedbackAPI.models
 
         public string Abrev { get; set; }
         public int Tables { get; set; }
-        public int? LicencesUsed { get; set; } = 0;
+        public int? LicencesUsed { get; set; }
 
         public int? LicensesLeft { get; set; }
-        public int ReturnCode { get; set; } = 0000;
+        public int ReturnCode { get; set; }
         public RestaurantDTO(string name, string location, string logo, int numMesas, string abrev)
         {
             Name = name;

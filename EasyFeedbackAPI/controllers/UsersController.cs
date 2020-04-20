@@ -38,11 +38,6 @@ namespace EasyFeedbackAPI.controllers
         [HttpGet("cognito/{cognito}")]
         public async Task<ActionResult<UserGetDTO>> GetByCognitoID(string CognitoID)
         {
-            //var userNoDTO = await _context.Users
-            //    .Include(i => i.UsersRestaurants)
-            //        .ThenInclude(i => i.Restaurant)
-            //        .ThenInclude(i => i.Settings)
-            //    .FirstOrDefaultAsync(i => i.CognitoID == CognitoID);
 
             var user = await _context.Users
             .Include(i => i.UsersRestaurants)
@@ -56,6 +51,7 @@ namespace EasyFeedbackAPI.controllers
                 Email = i.Email,
                 Name = i.Name,
                 Surname = i.Surname,
+                Admin = i.Admin,
                 Restaurants = i.UsersRestaurants.Select( ur => 
                 new RestaurantGetDTO
                 {
@@ -69,8 +65,9 @@ namespace EasyFeedbackAPI.controllers
                     LicensesLeft = ur.Restaurant.LicensesLeft,
                     ReturnCode = ur.Restaurant.ReturnCode,
                     Users = ur.Restaurant.UsersRestaurants.Select (ur => 
-                       new UserDTO
+                       new UserInsideRestaurantDTO
                        {
+                           ID = ur.User.ID,
                            Admin = ur.User.Admin,
                            CognitoID = ur.User.CognitoID,
                            Email = ur.User.Email,

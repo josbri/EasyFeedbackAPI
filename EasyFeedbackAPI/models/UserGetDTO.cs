@@ -12,7 +12,7 @@ namespace EasyFeedbackAPI.models
         public string CognitoID { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-
+        public bool Admin { get; set; }
         public string Email { get; set; }
 
         public string Username { get; set; }

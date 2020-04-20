@@ -20,6 +20,34 @@ namespace EasyFeedbackAPI.controllers
         {
             return new Restaurant { Name = d.Name, Location = d.Location, Logo = d.Logo, Tables = d.Tables, Abrev = d.Abrev};
         }
+
+        private RestaurantGetDTO ToRestaurantGetDTO (Restaurant r)
+        {
+            return new RestaurantGetDTO
+            {
+                ID = r.ID,
+                Abrev = r.Abrev,
+                Name = r.Name,
+                Location = r.Location,
+                Logo = r.Logo,
+                Tables = r.Tables,
+                LicencesUsed = r.LicencesUsed,
+                LicensesLeft = r.LicensesLeft,
+                ReturnCode = r.ReturnCode,
+                Users = r.UsersRestaurants.Select(ur =>
+                  new UserInsideRestaurantDTO
+                  {
+                      ID = ur.User.ID,
+                      Admin = ur.User.Admin,
+                      CognitoID = ur.User.CognitoID,
+                      Email = ur.User.Email,
+                      Name = ur.User.Name,
+                      Username = ur.User.Username,
+                      Surname = ur.User.Surname,
+                  }).ToList()
+            };
+
+        }
         public RestaurantsController(EasyFeedbackContext context)
         {
             _context = context;
@@ -34,48 +62,96 @@ namespace EasyFeedbackAPI.controllers
 
         // GET: api/Restaurants/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
+        public async Task<ActionResult<RestaurantGetDTO>> GetRestaurant(int id)
         {
-            var restaurant = await _context.Restaurants.FindAsync(id);
+            var restaurantEntity = await _context.Restaurants
+                .Include(i => i.UsersRestaurants)
+                .ThenInclude(u => u.User)
+                .FirstOrDefaultAsync(r => r.ID == id);
 
-            if (restaurant == null)
+            if (restaurantEntity == null)
             {
                 return NotFound();
             }
 
-            return restaurant;
+            var restaurantGetDTO = ToRestaurantGetDTO(restaurantEntity);
+
+
+
+            return restaurantGetDTO;
         }
 
         // PUT: api/Restaurants/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRestaurant(int id, Restaurant restaurant)
+        public async Task<ActionResult<RestaurantGetDTO>> PutRestaurant(int id, RestaurantPutDTO restaurantPutDTO)
         {
-            if (id != restaurant.ID)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(restaurant).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RestaurantExists(id))
+                if (id != restaurantPutDTO.ID)
+                {
+                    return BadRequest();
+                }
+
+                if (id == null)
+                {
+                    return BadRequest("Restaurant id is null");
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid Restaurant object");
+                }
+
+                var restaurantEntity = await _context.Restaurants.FindAsync(id);
+
+                if (restaurantEntity == null)
                 {
                     return NotFound();
                 }
-                else
+
+                restaurantEntity.LicencesUsed = restaurantPutDTO.LicencesUsed;
+                restaurantEntity.LicensesLeft = restaurantPutDTO.LicensesLeft;
+                restaurantEntity.Location = restaurantPutDTO.Location;
+                restaurantEntity.Logo = restaurantPutDTO.Logo;
+                restaurantEntity.Name = restaurantPutDTO.Name;
+                restaurantEntity.ReturnCode = restaurantPutDTO.ReturnCode;
+                restaurantEntity.Tables = restaurantPutDTO.Tables;
+
+
+                _context.Entry(restaurantEntity).State = EntityState.Modified;
+
+                try
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
+
+                    var restaurantGetDTO = ToRestaurantGetDTO(restaurantEntity);
+                    return restaurantGetDTO;
                 }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!RestaurantExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+               
+
+            }
+            catch (Exception e)
+            {
+                return NotFound();
             }
 
-            return NoContent();
+
+           
+
+          
         }
 
         // POST: api/Restaurants

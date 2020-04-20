@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EasyFeedbackAPI.models
 {
-    public class RestaurantGetDTO
+    public class RestaurantPutDTO
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -13,14 +13,13 @@ namespace EasyFeedbackAPI.models
         public string Logo { get; set; }
         public int Tables { get; set; }
 
-        public string Abrev { get; set; }
+        //public string Abrev { get; set; }
 
-        public int? LicencesUsed { get; set; }
+        public int LicencesUsed { get; set; }
 
-        public int? LicensesLeft { get; set; }
+        public int LicensesLeft { get; set; }
         public int ReturnCode { get; set; }
-        public List<UserInsideRestaurantDTO> Users { get; set; }
 
-        public RestaurantGetDTO() { }
+        public RestaurantPutDTO() { }
     }
 }

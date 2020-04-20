@@ -31,7 +31,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="data\" />
     <Folder Include="repositories\" />
   </ItemGroup>
   <ItemGroup>
