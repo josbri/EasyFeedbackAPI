@@ -60,7 +60,7 @@ namespace EasyFeedbackAPI.controllers
             var servicioList = await _context.Servicios
             .Include(i => i.Comentarios)
             .Include(i => i.User)
-            .Where(i => i.ID == id)
+            .Where(i => i.RestauranteID == id)
             .Select(i => new ServicioGetDTO
             {
                 ID = i.ID,
@@ -78,7 +78,8 @@ namespace EasyFeedbackAPI.controllers
                    Autor = c.Autor,
                    RatingFood = c.RatingFood,
                    RatingService = c.RatingService,
-                   Text = c.Text
+                   Text = c.Text,
+                   ServicioID = c.ServicioID
                }
                     ).ToList()
 

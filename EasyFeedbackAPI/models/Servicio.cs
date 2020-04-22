@@ -19,6 +19,7 @@ namespace EasyFeedbackAPI.models
         public int Comensales { get; set; }
         public double AverageFood { get; set; }
         public double AverageService { get; set; }
+        public int NumberComments { get; set; }
         public int UserID { get; set; }
         public User User { get; set; }
         public ICollection<Comment> Comentarios { get; set; }
@@ -36,6 +37,24 @@ namespace EasyFeedbackAPI.models
 
         public Servicio()
         {
+        }
+
+        public void UpdateAverages(int ratingFood, int ratingService)
+        {
+           if (this.NumberComments > 0)
+            {
+                this.AverageService = (this.AverageService * NumberComments + ratingService) / (NumberComments + 1);
+                this.AverageFood = (this.AverageFood * NumberComments + ratingFood) / (NumberComments + 1);
+                this.NumberComments++;
+
+            }
+            else
+            {
+                this.AverageFood = ratingFood;
+                this.AverageService = ratingService;
+                this.NumberComments++;
+            }
+            
         }
     }
 }

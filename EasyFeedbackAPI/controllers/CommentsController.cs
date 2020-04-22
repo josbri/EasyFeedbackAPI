@@ -86,6 +86,15 @@ namespace EasyFeedbackAPI.controllers
         {
             var comment = ToComment(commentDTO);
             _context.Comments.Add(comment);
+
+            var servicio = await _context.Servicios.FindAsync(comment.ServicioID);
+            if (servicio != null)
+            {
+                servicio.UpdateAverages(comment.RatingFood, comment.RatingService);
+                _context.SaveChanges();
+                _context.Update(comment);
+            }
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetComment", new { id = comment.ID }, commentDTO);

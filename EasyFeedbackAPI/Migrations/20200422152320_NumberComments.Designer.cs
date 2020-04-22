@@ -4,14 +4,16 @@ using EasyFeedbackAPI.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EasyFeedbackAPI.Migrations
 {
     [DbContext(typeof(EasyFeedbackContext))]
-    partial class EasyFeedbackContextModelSnapshot : ModelSnapshot
+    [Migration("20200422152320_NumberComments")]
+    partial class NumberComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
