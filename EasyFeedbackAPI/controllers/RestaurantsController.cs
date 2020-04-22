@@ -103,7 +103,11 @@ namespace EasyFeedbackAPI.controllers
                     return BadRequest("Invalid Restaurant object");
                 }
 
-                var restaurantEntity = await _context.Restaurants.FindAsync(id);
+                var restaurantEntity = await _context.Restaurants
+                    .Include(x=> x.UsersRestaurants)
+                    .ThenInclude(i=>i.User)
+                    .Where(x => x.ID == id)
+                    .FirstOrDefaultAsync();
 
                 if (restaurantEntity == null)
                 {
@@ -121,36 +125,18 @@ namespace EasyFeedbackAPI.controllers
 
                 _context.Entry(restaurantEntity).State = EntityState.Modified;
 
-                try
-                {
                     await _context.SaveChangesAsync();
 
                     var restaurantGetDTO = ToRestaurantGetDTO(restaurantEntity);
                     return restaurantGetDTO;
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RestaurantExists(id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-               
+                
+                             
 
             }
             catch (Exception e)
             {
                 return NotFound();
             }
-
-
-           
-
           
         }
 

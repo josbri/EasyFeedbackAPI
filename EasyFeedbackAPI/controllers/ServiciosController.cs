@@ -52,6 +52,45 @@ namespace EasyFeedbackAPI.controllers
             return servicio;
         }
 
+        // GET: api/Servicios/Restaurant/5
+        [HttpGet("Restaurant/{id}")]
+        public async Task<ActionResult<List<ServicioGetDTO>>> GetByServicioID(int id)
+        {
+
+            var servicioList = await _context.Servicios
+            .Include(i => i.Comentarios)
+            .Include(i => i.User)
+            .Where(i => i.ID == id)
+            .Select(i => new ServicioGetDTO
+            {
+                ID = i.ID,
+                AverageFood = i.AverageFood,
+                AverageService = i.AverageService,
+                Comensales = i.Comensales,
+                Date = i.Date,
+                MesaID = i.MesaID,
+                RestauranteID = i.RestauranteID,
+                User = i.User,
+                UserID = i.UserID,                
+                Comentarios = i.Comentarios.Select(c =>
+               new CommentDTO
+               {
+                   Autor = c.Autor,
+                   RatingFood = c.RatingFood,
+                   RatingService = c.RatingService,
+                   Text = c.Text
+               }
+                    ).ToList()
+
+            }).ToListAsync();
+
+
+            if (servicioList == null)
+            { 
+            return NotFound();
+            }
+            return servicioList;
+        }
         // PUT: api/Servicios/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
