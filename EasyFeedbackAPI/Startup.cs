@@ -17,7 +17,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using AutoMapper;
 using Newtonsoft.Json;
+using EasyFeedbackAPI.Repositories;
+using EasyFeedbackAPI.Services;
 
 namespace EasyFeedbackAPI
 {
@@ -33,14 +36,31 @@ namespace EasyFeedbackAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddCors();
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 ); ;
 
+
+
+            //Dependency Injection. 
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+            services.AddScoped<IServicioRepository, ServicioRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+
+            services.AddScoped<IUserService, UserService>();
+
+
             //Añadimos el EasyFeedbackContext y lo apuntamos a la connectionString.
             services.AddDbContext<EasyFeedbackContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("RDSPRE")));
+
+
+            services.AddAutoMapper(typeof(Startup));
+
 
             var Region = Configuration["AWSCognito:Region"];
             var PoolId = Configuration["AWSCognito:PoolId"];
@@ -72,6 +92,8 @@ namespace EasyFeedbackAPI
                         ValidAudience = AppClientId,
                     };
                 });
+
+
             //Anyadimos Swagger para controlar la pagina Help de la API.
             services.AddSwaggerGen(c =>
             {

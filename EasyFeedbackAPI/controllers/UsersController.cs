@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using EasyFeedbackAPI.Extensions;
+using EasyFeedbackAPI.models;
+using EasyFeedbackAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using EasyFeedbackAPI.data;
-using EasyFeedbackAPI.models;
 
 namespace EasyFeedbackAPI.controllers
 {
@@ -14,171 +15,81 @@ namespace EasyFeedbackAPI.controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly EasyFeedbackContext _context;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        private User ToUser(UserDTO u)
+        public UsersController(IUserService userService, IMapper mapper)
         {
-            return new User { Name = u.Name, Surname = u.Surname, 
-                CognitoID = u.CognitoID, Admin = u.Admin, Email = u.Email, Username = u.Username};
+            _userService = userService;
+            _mapper = mapper;
         }
-        public UsersController(EasyFeedbackContext context)
-        {
-            _context = context;
-        }
-
-        // GET: api/Users
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser()
-        {
-            return await _context.Users.ToListAsync();
-        }
-
 
         // GET: api/Users
         [HttpGet("cognito/{cognito}")]
-        public async Task<ActionResult<UserGetDTO>> GetByCognitoID(string CognitoID)
+        public async Task<ActionResult<UserGetDTO>> GetByCognitoID(string cognitoID)
         {
+            var userEntity = await _userService.FindByCognitoIdAsync(cognitoID);
 
-            var user = await _context.Users
-            .Include(i => i.UsersRestaurants)
-            .ThenInclude(i => i.Restaurant)
-            .Where(i => i.CognitoID == CognitoID)
-            .Select(i => new UserGetDTO
-            {
-                ID = i.ID,
-                Username = i.Username,
-                CognitoID = i.CognitoID,
-                Email = i.Email,
-                Name = i.Name,
-                Surname = i.Surname,
-                Admin = i.Admin,
-                Restaurants = i.UsersRestaurants.Select( ur => 
-                new RestaurantGetDTO
-                {
-                    ID = ur.Restaurant.ID,
-                    Abrev = ur.Restaurant.Abrev,
-                    Name = ur.Restaurant.Name,
-                    Location = ur.Restaurant.Location,
-                    Logo = ur.Restaurant.Logo,
-                    Tables = ur.Restaurant.Tables,
-                    LicencesUsed = ur.Restaurant.LicencesUsed,
-                    LicensesLeft = ur.Restaurant.LicensesLeft,
-                    ReturnCode = ur.Restaurant.ReturnCode,
-                    Users = ur.Restaurant.UsersRestaurants.Select (ur => 
-                       new UserInsideRestaurantDTO
-                       {
-                           ID = ur.User.ID,
-                           Admin = ur.User.Admin,
-                           CognitoID = ur.User.CognitoID,
-                           Email = ur.User.Email,
-                           Name = ur.User.Name,
-                           Username = ur.User.Username,
-                           Surname = ur.User.Surname,
-                       }).ToList()
-                }
-                    ).ToList()
-
-            }).FirstOrDefaultAsync();
-
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return user;
-        }
-
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-
-            if (user == null)
+            if(userEntity == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return Ok(_mapper.Map<UserGetDTO>(userEntity));
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<ActionResult<UserGetDTO>> PutUser(int id, UserDTO userDTO)
         {
-            if (id != user.ID)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState.GetErrorMessages());
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            var user = _mapper.Map<User>(userDTO);
+            var result = await _userService.UpdateAsync(id, user);
 
-            try
+            if (!result.Success)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(result.Message);
             }
 
-            return NoContent();
+            return Ok(_mapper.Map<UserGetDTO>(result.User));
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(UserDTO userDTO)
         {
-            var user = ToUser(userDTO);
-            _context.Users.Add(user);
-
-            await _context.SaveChangesAsync();
-
-            var userRestaurant = new UsersRestaurants()
+            if (!ModelState.IsValid)
             {
-                RestaurantID = userDTO.RestaurantID,
-                UserID = user.ID
-            };
+                return BadRequest(ModelState.GetErrorMessages());
+            }
 
+            var userEntity = _mapper.Map<User>(userDTO);
+            var result = await _userService.CreateAsync(userEntity);
 
-            _context.UsersRestaurants.Add(userRestaurant);
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
 
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.ID }, user);
+            return Ok(_mapper.Map<UserGetDTO>(result.User));
         }
 
-        // DELETE: api/Users/5
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var result = await _userService.DeleteAsync(id);
+
+            if (!result.Success)
             {
-                return NotFound();
+                return BadRequest(result.Message);
             }
 
-            _context.Users.Remove(user);
-
-            await _context.SaveChangesAsync();
-
-            return user;
+            return Ok(_mapper.Map<UserGetDTO>(result.User));
         }
 
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.ID == id);
-        }
     }
 }
