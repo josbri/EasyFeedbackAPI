@@ -13,7 +13,7 @@ namespace EasyFeedbackAPI.models
         public string Logo { get; set; }
         public int Tables { get; set; }
 
-        //public string Abrev { get; set; }
+        public string Abrev { get; set; }
 
         public int LicencesUsed { get; set; }
 

@@ -31,9 +31,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="repositories\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="controllers\WeatherForecastController.cs" />
     <Compile Remove="Migrations\20200326161731_MesasRemoved.cs" />
     <Compile Remove="Migrations\20200326161731_MesasRemoved.Designer.cs" />
