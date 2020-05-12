@@ -12,7 +12,7 @@ namespace EasyFeedbackAPI.controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CommentsController : ControllerBase
+    public class _CommentsController : ControllerBase
     {
         private readonly EasyFeedbackContext _context;
 
@@ -20,7 +20,7 @@ namespace EasyFeedbackAPI.controllers
         {
             return new Comment { RatingFood = c.RatingFood, RatingService = c.RatingService, Text = c.Text, ServicioID = c.ServicioID,  Autor = c.Autor };
         }
-        public CommentsController(EasyFeedbackContext context)
+        public _CommentsController(EasyFeedbackContext context)
         {
             _context = context;
         }

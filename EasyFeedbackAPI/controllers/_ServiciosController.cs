@@ -12,7 +12,7 @@ namespace EasyFeedbackAPI.controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ServiciosController : ControllerBase
+    public class _ServiciosController : ControllerBase
     {
         private readonly EasyFeedbackContext _context;
 
@@ -26,7 +26,7 @@ namespace EasyFeedbackAPI.controllers
                 UserID = s.UserID
             };
         }
-        public ServiciosController(EasyFeedbackContext context)
+        public _ServiciosController(EasyFeedbackContext context)
         {
             _context = context;
         }

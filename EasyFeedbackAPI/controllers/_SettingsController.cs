@@ -12,7 +12,7 @@ namespace EasyFeedbackAPI.controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SettingsController : ControllerBase
+    public class _SettingsController : ControllerBase
     {
         private readonly EasyFeedbackContext _context;
 
@@ -20,7 +20,7 @@ namespace EasyFeedbackAPI.controllers
         {
             return new Settings { RestaurantID = s.RestaurantID };
         }
-        public SettingsController(EasyFeedbackContext context)
+        public _SettingsController(EasyFeedbackContext context)
         {
             _context = context;
         }
