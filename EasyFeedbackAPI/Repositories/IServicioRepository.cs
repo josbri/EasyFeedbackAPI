@@ -8,5 +8,8 @@ namespace EasyFeedbackAPI.Repositories
 {
     public interface IServicioRepository : IRepositoryBase<Servicio>
     {
+
+        public Task<IEnumerable<Servicio>> FindByRestaurantId(int id);
+
     }
 }
