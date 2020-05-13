@@ -28,7 +28,7 @@ namespace EasyFeedbackAPI.controllers
 
         // GET: api/Servicios/Restaurant/5
         [HttpGet("Restaurant/{id}")]
-        public async Task<ActionResult<List<ServicioGetDTO>>> GetByRestaurantId(int id)
+        public async Task<ActionResult<IEnumerable<ServicioGetDTO>>> GetByRestaurantId(int id)
         {
             var servicios = await _servicioService.FindByRestaurantIdAsync(id);
 

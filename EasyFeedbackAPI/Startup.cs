@@ -41,8 +41,7 @@ namespace EasyFeedbackAPI
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 ); ;
-
-
+            
 
             //Dependency Injection. 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -52,7 +51,9 @@ namespace EasyFeedbackAPI
             services.AddScoped<ICommentRepository, CommentRepository>();
 
             services.AddScoped<IUserService, UserService>();
-
+            services.AddScoped<IRestaurantService, RestaurantService>();
+            services.AddScoped<IServicioService, ServicioService>();
+            services.AddScoped<ICommentService, CommentService>();
 
             //Añadimos el EasyFeedbackContext y lo apuntamos a la connectionString.
             services.AddDbContext<EasyFeedbackContext>(options =>

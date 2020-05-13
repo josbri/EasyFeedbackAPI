@@ -17,7 +17,7 @@ namespace EasyFeedbackAPI.models
         public int UserID { get; set; }
 
         public User User { get; set; }
-        public ICollection<CommentDTO> Comentarios { get; set; }
+        public ICollection<Comment> Comentarios { get; set; }
 
         public ServicioGetDTO()
         {
