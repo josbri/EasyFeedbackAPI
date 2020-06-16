@@ -1,12 +1,11 @@
-Primers Models:
-
-Comment: { ID, Date, RatingFood, RatingService, Text, Waiter, Table} (Waiter i Table son objectes).
-Restaurant: { ID, Name, Location }
-Table: {ID, ComensalesNum, NumMesa, CommentsList}
-Waiter: { ID, Name, Surname }
-Chef: {ID, Name, Surname }
-
-
-
+API written in .Net Core 3.1, deployed to AWS Lambda. 
+Technologies:
+  -.Net Core.
+  - Entity Framework.
+  - Dependency Injection.
+  - AWS Lambda.
+  - AWS Api Gateway.
+  - AWS Cognito.
+  - Automapper
 
 
